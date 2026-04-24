@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<title>OBD Scanner</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    color: white;
+    text-align: center;
+    margin: 0;
+    scroll-behavior: smooth;
+}
+
+section {
+    padding: 60px 20px;
+}
+
+nav {
+    position: fixed;
+    width: 100%;
+    background: rgba(0,0,0,0.7);
+    padding: 10px;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 25px;
+    margin: 10px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #218838;
+    transform: scale(1.1);
+}
+
+.buy-btn {
+    padding: 20px 50px;
+    font-size: 22px;
+}
+
+.review {
+    background: rgba(255,255,255,0.1);
+    padding: 15px;
+    margin: 15px;
+    border-radius: 10px;
+    display: inline-block;
+    width: 250px;
+}
+
+.review img {
+    width: 50px;
+    border-radius: 50%;
+}
+
+input {
+    padding: 10px;
+    width: 250px;
+    border-radius: 5px;
+    border: none;
+}
+
+#popup {
+    display: none;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #1c1c1c;
+    padding: 30px;
+    border-radius: 10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav>
+    <button onclick="go('hero')">Головна</button>
+    <button onclick="go('about')">Про товар</button>
+    <button onclick="go('company')">Про нас</button>
+    <button onclick="go('reviews')">Відгуки</button>
+    <button onclick="go('contact')">Контакти</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+    <h1>🚗 OBD Scanner</h1>
+    <p>Діагностика авто за секунди</p>
+    <button onclick="go('contact')">Замовити</button>
+</section>
+
+<!-- PRODUCT -->
+<section id="about">
+    <h2>Про товар</h2>
+    <img src="OBD12.jpg" width="300">
+    <p>Швидко знаходить помилки авто</p>
+    <p>Працює з більшістю машин</p>
+
+    <h3>Переваги:</h3>
+    <p>⚡ Швидко</p>
+    <p>🔧 Просто</p>
+    <p>🚗 Універсально</p>
+</section>
+
+<!-- VIDEO -->
+<section>
+    <h2>Відео огляд</h2>
+    <video width="400" controls>
+        <source src="OBD13.mp4" type="video/mp4">
+    </video>
+</section>
+
+<!-- PRICE -->
+<section>
+    <h2>29.99€</h2>
+    <p>🔥 -50% тільки сьогодні</p>
+    <p>⏳ Залишилось 7 штук</p>
+    <button class="buy-btn" onclick="buy()">Придбати</button>
+</section>
+
+<!-- ABOUT COMPANY -->
+<section id="company">
+    <h2>Про нас</h2>
+    <h3>AutoScan</h3>
+    <p>Ми створюємо доступні інструменти для діагностики авто.</p>
+    <p>Наша місія — зробити ремонт простішим.</p>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+    <h2>Відгуки</h2>
+
+    <div class="review">
+        <img src="https://i.pravatar.cc/50?img=1">
+        <p><b>Рома</b></p>
+        <p>Дуже круто!</p>
+    </div>
+
+    <div class="review">
+        <img src="https://i.pravatar.cc/50?img=2">
+        <p><b>Олег</b></p>
+        <p>Знайшов проблему за 5 хв</p>
+    </div>
+
+    <div class="review">
+        <img src="https://i.pravatar.cc/50?img=3">
+        <p><b>Петро</b></p>
+        <p>Рекомендую</p>
+    </div>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+    <h2>Контакти</h2>
+
+    <form id="orderForm">
+    <input type="text" name="name" placeholder="Ім'я" required><br><br>
+    <input type="text" name="address" placeholder="Адреса" required><br><br>
+    <input type="email" name="email" placeholder="Email" required><br><br>
+    <button type="submit">Відправити</button>
+</form>
+</section>
+
+<!-- POPUP -->
+<div id="popup">
+    <h2>✅ Дякуємо за замовлення!</h2>
+    <p>Ми вже обробляємо вашу заявку</p>
+    <button onclick="closePopup()">Закрити</button>
+</div>
+
+<script>
+  const form = document.getElementById('orderForm');
+
+form.onsubmit = async function(e){
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    try {
+        await fetch('https://script.google.com/macros/s/AKfycbxp9XgZ2oVrw1ek_r-1uQs5G0jc6fZ--Rk3rBtgxCWcU5L5EEnxOOzI2PT-Z7ym0oVphw/exec', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: formData.get('name'),
+                address: formData.get('address'),
+                email: formData.get('email')
+            })
+        });
+
+        form.reset();
+        document.getElementById("popup").style.display = "block";
+
+    } catch(err) {
+        alert("Помилка: " + err);
+    }
+};
+function go(id) {
+    document.getElementById(id).scrollIntoView({behavior: "smooth"});
+}
+
+function buy() {
+    document.getElementById("popup").style.display = "block";
+}
+
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+</script>
+
+</body>
+</html>
